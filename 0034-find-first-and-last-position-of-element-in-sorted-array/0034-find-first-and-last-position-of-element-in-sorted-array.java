@@ -1,14 +1,31 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int start = -1, end = -1;
+        int first = findBound(nums, target, true);
+        int last = findBound(nums, target, false);
+        return new int[]{first, last};
+    }
 
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == target) {
-                if (start == -1) start = i;
-                end = i;
+    private int findBound(int[] nums, int target, boolean isFirst) {
+        int left = 0, right = nums.length - 1;
+        int bound = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] == target) {
+                bound = mid;
+                if (isFirst) {
+                    right = mid - 1;  // continue searching on the left
+                } else {
+                    left = mid + 1;   // continue searching on the right
+                }
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
 
-        return new int[]{start, end};
+        return bound;
     }
 }
