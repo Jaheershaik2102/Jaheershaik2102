@@ -1,29 +1,21 @@
 class Solution {
     public String reverseWords(String s) {
-        Stack<String> stack = new Stack<>();
-        StringBuilder word = new StringBuilder();
-        
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            
-            if (c != ' ') {
-                word.append(c);
-            } else if (word.length() > 0) {
-                stack.push(word.toString());
-                word.setLength(0);
-            }
-        }
-        
-        if (word.length() > 0) {
-            stack.push(word.toString());
-        }
-        
         StringBuilder result = new StringBuilder();
-        while (!stack.isEmpty()) {
-            result.append(stack.pop());
-            if (!stack.isEmpty()) {
+        int n = s.length();
+        int i = n - 1;
+        
+        while (i >= 0) {
+            while (i >= 0 && s.charAt(i) == ' ') i--;
+            
+            if (i < 0) break;
+            
+            int j = i;
+            while (i >= 0 && s.charAt(i) != ' ') i--;
+            
+            if (result.length() > 0) {
                 result.append(" ");
             }
+            result.append(s.substring(i + 1, j + 1));
         }
         
         return result.toString();
